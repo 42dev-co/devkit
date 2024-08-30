@@ -1,0 +1,84 @@
+version: '3'
+
+# Variables
+vars:
+  MODULES_DIR: "./modules"
+  DYNAMIC_INCLUDE: "./includes.yml"
+
+# Main Tasks
+tasks:
+  default:
+    desc: "Show the list of available tasks"
+    cmds:
+      - task --list
+
+  init:
+    desc: "Initialize the devkit environment"
+    cmds:
+      - echo "Devkit environment initialized."
+      - mkdir -p {{.MODULES_DIR}}
+      - task update-includes
+      - task --list
+
+  mod_install:
+    desc: "Install a module"
+    summary: "Clone a module from a public repository URL."
+    inputs:
+      - REPO_URL
+    cmds:
+      - |
+        REPO_NAME=$(basename -s .git {{.REPO_URL}})
+        # remove "-tasks" from the repo name
+        MODULE_NAME=$(echo $REPO_NAME | sed 's/-tasks//')
+        mkdir -p {{.MODULES_DIR}}/$MODULE_NAME
+        git clone {{.REPO_URL}} {{.MODULES_DIR}}/$MODULE_NAME
+      - task update-includes
+      - echo "Module $MODULE_NAME installed."
+
+  mod_update:
+    desc: "Update all installed modules"
+    silient: true
+    cmds:
+      - |
+        for module in $(ls {{.MODULES_DIR}}); do \
+          cd {{.MODULES_DIR}}/$module && git pull; \
+          cd ../..; \
+        done
+      - task update-includes
+      - echo "All modules updated."
+
+  update:
+    desc: "Update devkit"
+    summary: "Fetch the latest version of the main Taskfile and update all modules."
+    cmds:
+      - echo "Updating the main Taskfile..."
+      - curl -o Taskfile.yml https://raw.githubusercontent.com/42dev-co/devkit/main/Taskfile.yml
+      - echo "Main Taskfile updated."
+      - task mod_update
+      - task update-includes
+      - echo "Devkit and modules updated."
+
+  clean:
+    desc: "Clean up all installed modules"
+    cmds:
+      - rm -rf {{.MODULES_DIR}}
+      - rm -f {{.DYNAMIC_INCLUDE}}
+      - echo "All modules have been cleaned up."
+
+  update-includes:
+    desc: "Update the dynamically included tasks from modules"
+    cmds:
+      - |
+        echo "version: '3'" > {{.DYNAMIC_INCLUDE}}
+        echo "includes:" >> {{.DYNAMIC_INCLUDE}}
+        for module in $(find {{.MODULES_DIR}} -mindepth 1 -maxdepth 1 -type d); do \
+          MODULE_NAME=$(basename $module); \
+          TASKFILE_PATH="$module/Taskfile.yml"; \
+          if [ -f $TASKFILE_PATH ]; then \
+            echo "  $MODULE_NAME: $TASKFILE_PATH" >> {{.DYNAMIC_INCLUDE}}; \
+          fi; \
+        done
+      - echo "Dynamic includes updated."
+
+includes:
+  mod: ./includes.yml
