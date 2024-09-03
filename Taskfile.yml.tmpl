@@ -2,8 +2,9 @@ version: '3'
 
 # Variables
 vars:
-  MODULES_DIR: "./.modules"
-  DYNAMIC_INCLUDE: "./.includes.yml"
+  INSTALL_DIR: "$HOME/.local"
+  MODULES_DIR: "$HOME/.local/modules"
+  DYNAMIC_INCLUDE: "$HOME/.local/includes.yml"
 
 # Main Tasks
 tasks:
@@ -66,7 +67,7 @@ tasks:
     summary: "Fetch the latest version of the main Taskfile and update all modules."
     cmds:
       - echo "Updating the main Taskfile..."
-      - curl -o Taskfile.yml https://raw.githubusercontent.com/42dev-co/devkit/main/Taskfile.yml
+      - curl -sSL https://raw.githubusercontent.com/42dev-co/devkit/main/devkit-install.sh | bash
       - echo "Main Taskfile updated."
       - task mod_update
       - task update-includes
@@ -83,7 +84,6 @@ tasks:
     desc: "Update the dynamically included tasks from modules"
     cmds:
       - |
-        echo "version: '3'" > {{.DYNAMIC_INCLUDE}}
         echo "includes:" >> {{.DYNAMIC_INCLUDE}}
         for module in $(find {{.MODULES_DIR}} -mindepth 1 -maxdepth 1 -type d); do \
           MODULE_NAME=$(basename $module); \
@@ -92,7 +92,11 @@ tasks:
             echo "  $MODULE_NAME: $TASKFILE_PATH" >> {{.DYNAMIC_INCLUDE}}; \
           fi; \
         done
-      - echo "Dynamic includes updated."
+        if [ -f "$INSTALL_DIR/include.yaml"]; then
+          cat $INSTALL_DIR/Taskfile.yml.tmp $INSTALL_DIR/include.yml.tmpl > $INSTALL_DIR/Taskfile.yml
+        else
+          cat $INSTALL_DIR/Taskfile.yml.tmp $INSTALL_DIR/Taskfile.yml 
+        fi
+        echo "Dynamic includes updated."
 
-includes:
-  mod: ./.includes.yml
+

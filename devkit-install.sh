@@ -17,19 +17,22 @@ install_or_update_devbox() {
 install_or_update_devbox
 
 # Step 2: Install go-task globally using devbox
-devbox global add go-task
+devbox global add go-task gomplate
 
 # Step 3: Download the main Taskfile.yml from GitLab
 REPO_URL="https://raw.githubusercontent.com/42dev-co"
-TASKFILE_URL="$REPO_URL/devkit/main/Taskfile.yml"
+TASKFILE_URL="$REPO_URL/devkit/main/Taskfile.yml.tmpl"
+
+# Create ~/.local/devkit
+mkdir $HOME/.local/devkit
+INSTALL_DIR=$HOME/.local/devkit
 
 # Download the Taskfile.yml to the current directory
-curl -o Taskfile.yml $TASKFILE_URL
+curl -o $INSTALL_DIR/Taskfile.yml.tmpl $TASKFILE_URL
 
-# if includes.yml does not exist, create it
-if [ ! -f "includes.yml" ]; then
-  echo "version: '3'" > .includes.yml
+# Concatenate includes if exists
+if [ -f "$INSTALL_DIR/include.yaml"]; then
+  cat $INSTALL_DIR/Taskfile.yml.tmp $INSTALL_DIR/include.yml.tmpl > $INSTALL_DIR/Taskfile.yml
+else
+  cat $INSTALL_DIR/Taskfile.yml.tmp $INSTALL_DIR/Taskfile.yml 
 fi
-
-# Step 4: Initialize the environment
-task init
