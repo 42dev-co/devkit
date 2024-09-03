@@ -36,8 +36,8 @@ One such usage is that repetitive task or scripts can be install as modules, pub
 Example: 
 
 ```
-task mod_install REPO_URL=https://github.com/42dev-co/otf-tasks.git
-task mod:otf:init name=someproject description="A opentofu project" tier=2
+task install_mod url=https://github.com/42dev-co/otf-tasks.git
+task otf:init name=someproject description="A opentofu project" tier=2
 ```
 1. the first command installs a module for opentofu scaffolding
 2. the second commands uses the module task script to scaffold a new OpenTofu project name `someproject`
@@ -61,7 +61,7 @@ curl -sSL https://raw.githubusercontent.com/42dev-co/devkit/main/devkit-install.
 Create a taskfile and put it into git repo. Your repo shall contain the `-tasks` suffix.
 For example, https://github.com/42dev-co/otf-tasks.git will be install to `./modules/otf` folder. 
 
-After a module is install, you can run `task mod:otf:<task> <param1>=<value1> <param1>=<value1>`.
+After a module is install, you can run `task otf:<task> <param1>=<value1> <param1>=<value1>`.
 
-
+Take Note of special variables for creating [Taskfile](https://taskfile.dev/reference/templating/#special-variables).
 
