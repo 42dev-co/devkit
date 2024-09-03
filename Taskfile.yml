@@ -20,22 +20,36 @@ tasks:
       - task update-includes
       - task --list
 
-  mod_install:
+  ls_mod:
+    desc: "Install all modules"
+    cmds:
+      - |
+        ls {{.MODULES_DIR}}
+
+  rm_mod:
+    desc: "Remove module"
+    inputs:
+      - module
+    cmds:
+      - rm {{.MODULES_DIR}}/{{.module}}
+      - echo "Module {{.module}} removed"
+
+  install_mod:
     desc: "Install a module"
     summary: "Clone a module from a public repository URL."
     inputs:
-      - REPO_URL
+      - url
     cmds:
       - |
-        REPO_NAME=$(basename -s .git {{.REPO_URL}})
+        REPO_NAME=$(basename -s .git {{.url}})
         # remove "-tasks" from the repo name
         MODULE_NAME=$(echo $REPO_NAME | sed 's/-tasks//')
         mkdir -p {{.MODULES_DIR}}/$MODULE_NAME
-        git clone {{.REPO_URL}} {{.MODULES_DIR}}/$MODULE_NAME
+        git clone {{.url}} {{.MODULES_DIR}}/$MODULE_NAME
       - task update-includes
       - echo "Module $MODULE_NAME installed."
 
-  mod_update:
+  update_mod:
     desc: "Update all installed modules"
     silient: true
     cmds:
