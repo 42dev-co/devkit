@@ -91,7 +91,7 @@ tasks:
     desc: "Update the dynamically included tasks from modules"
     cmds:
       - |
-        echo "includes:" >> {{.DYNAMIC_INCLUDE}}
+        echo "includes:" > {{.DYNAMIC_INCLUDE}}
         for module in $(find {{.MODULES_DIR}} -mindepth 1 -maxdepth 1 -type d); do \
           MODULE_NAME=$(basename $module); \
           TASKFILE_PATH="$module/Taskfile.yml"; \
