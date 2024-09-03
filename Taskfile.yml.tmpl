@@ -2,9 +2,9 @@ version: '3'
 
 # Variables
 vars:
-  INSTALL_DIR: "$HOME/.local"
-  MODULES_DIR: "$HOME/.local/modules"
-  DYNAMIC_INCLUDE: "$HOME/.local/includes.yml"
+  INSTALL_DIR: "$HOME/.local/devkit"
+  MODULES_DIR: "{{.INSTALL_DIR}}/modules"
+  DYNAMIC_INCLUDE: "{{.INSTALL_DIR}}/includes.yml"
 
 # Main Tasks
 tasks:
