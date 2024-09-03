@@ -28,7 +28,7 @@ curl -o Taskfile.yml $TASKFILE_URL
 
 # if includes.yml does not exist, create it
 if [ ! -f "includes.yml" ]; then
-  echo "version: '3'" > includes.yml
+  echo "version: '3'" > .includes.yml
 fi
 
 # Step 4: Initialize the environment

@@ -2,8 +2,8 @@ version: '3'
 
 # Variables
 vars:
-  MODULES_DIR: "./modules"
-  DYNAMIC_INCLUDE: "./includes.yml"
+  MODULES_DIR: "./.modules"
+  DYNAMIC_INCLUDE: "./.includes.yml"
 
 # Main Tasks
 tasks:
@@ -81,4 +81,4 @@ tasks:
       - echo "Dynamic includes updated."
 
 includes:
-  mod: ./includes.yml
+  mod: ./.includes.yml
