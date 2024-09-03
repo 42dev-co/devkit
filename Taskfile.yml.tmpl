@@ -25,15 +25,22 @@ tasks:
     desc: "Install all modules"
     cmds:
       - |
-        ls {{.MODULES_DIR}}
+        if [ -d "{{.MODULES_DIR}}" ]; then
+          ls {{.MODULES_DIR}}
+        else
+          echo "Module folder is empty."
+        fi
 
   rm_mod:
     desc: "Remove module"
     inputs:
       - module
     cmds:
-      - rm {{.MODULES_DIR}}/{{.module}}
-      - echo "Module {{.module}} removed"
+      -  |
+        if [ -d "{{.MODULES_DIR}}/{{.module}}" ]; then
+          rm -rf {{.MODULES_DIR}}/{{.module}}
+        fi
+        echo "Module {{.module}} removed"
 
   install_mod:
     desc: "Install a module"
@@ -92,10 +99,10 @@ tasks:
             echo "  $MODULE_NAME: $TASKFILE_PATH" >> {{.DYNAMIC_INCLUDE}}; \
           fi; \
         done
-        if [ -f "$INSTALL_DIR/include.yml" ]; then
-          cat $INSTALL_DIR/Taskfile.yml.tmpl $INSTALL_DIR/include.yml > $INSTALL_DIR/Taskfile.yml
+        if [ -f "{{.INSTALL_DIR}}/include.yml" ]; then
+          cat {{.INSTALL_DIR}}/Taskfile.yml.tmpl {{.INSTALL_DIR}}/include.yml > {{.INSTALL_DIR}}/Taskfile.yml
         else
-          cat $INSTALL_DIR/Taskfile.yml.tmpl > $INSTALL_DIR/Taskfile.yml 
+          cat {{.INSTALL_DIR}}/Taskfile.yml.tmpl > {{.INSTALL_DIR}}/Taskfile.yml 
         fi
         echo "Dynamic includes updated."
 
