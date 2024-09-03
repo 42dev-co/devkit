@@ -16,12 +16,12 @@ task --list
 
 3. Install a module
 ```
-task mod_install REPO_URL=<https://....>
+task install_mod url=<https://....>
 ```
 
 4. Update all modules
 ```
-task mod_update
+task update_mod
 ```
 
 5. Update all modules including devkit Taskfile
