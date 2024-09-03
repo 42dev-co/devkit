@@ -24,7 +24,7 @@ INSTALL_DIR=$HOME/.local/devkit
 
 git clone https://github.com/42dev-co/devkit.git $INSTALL_DIR
 
-if [ -d "$INSTALL_DIR/.git"]; then
+if [ -d "$INSTALL_DIR/.git" ]; then
   rm -rf $INSTALL_DIR/.git
 fi
 
