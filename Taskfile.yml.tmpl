@@ -74,8 +74,8 @@ tasks:
     summary: "Fetch the latest version of the main Taskfile and update all modules."
     cmds:
       - echo "Updating the main Taskfile..."
-      - curl -sSL https://raw.githubusercontent.com/42dev-co/devkit/main/devkit-install.sh | bash
-      - echo "Main Taskfile updated."
+      - curl -L -o {{.INSTALL_DIR}}/Taskfile.yml.tmpl  https://raw.githubusercontent.com/42dev-co/devkit/main/Taskfile.yml.tmpl
+      - echo "Main Taskfile template updated."
       - task update_mod
       - task update-includes
       - echo "Devkit and modules updated."
