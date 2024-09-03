@@ -32,9 +32,9 @@ curl -o $INSTALL_DIR/Taskfile.yml.tmpl $TASKFILE_URL
 
 # Concatenate includes if exists
 if [ -f "$INSTALL_DIR/include.yml" ]; then
-  cat $INSTALL_DIR/Taskfile.yml.tmpl $INSTALL_DIR/include.yml > $INSTALL_DIR/Taskfile.yml
+  cat $INSTALL_DIR/Taskfile.yml.tmpl $INSTALL_DIR/include.yml >| $INSTALL_DIR/Taskfile.yml
 else
-  cat $INSTALL_DIR/Taskfile.yml.tmpl > $INSTALL_DIR/Taskfile.yml 
+  cat $INSTALL_DIR/Taskfile.yml.tmpl >| $INSTALL_DIR/Taskfile.yml 
 fi
 
 cat << EOF
