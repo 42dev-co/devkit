@@ -32,6 +32,5 @@ bash $INSTALL_DIR/join.sh
 
 cat << EOF
  add the following to your rc scripts, e.g bash
-
-    alias devkit="task -t ~/.local/devkit/Taskfile.yml"
+	alias devkit='CURRENT_DIR=\$(pwd) task -t ~/.local/devkit/Taskfile.yml'
 EOF
