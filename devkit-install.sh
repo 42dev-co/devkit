@@ -36,3 +36,9 @@ if [ -f "$INSTALL_DIR/include.yml" ]; then
 else
   cat $INSTALL_DIR/Taskfile.yml.tmpl > $INSTALL_DIR/Taskfile.yml 
 fi
+
+cat << EOF
+ add the following to your rc scripts, e.g bash
+
+    alias devkit="task -t ~/.local/devkit/Taskfile.yml"
+EOF
