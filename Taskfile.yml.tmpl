@@ -99,10 +99,6 @@ tasks:
             echo "  $MODULE_NAME: $TASKFILE_PATH" >> {{.DYNAMIC_INCLUDE}}; \
           fi; \
         done
-        if [ -f "{{.INSTALL_DIR}}/include.yml" ]; then
-          cat {{.INSTALL_DIR}}/Taskfile.yml.tmpl {{.INSTALL_DIR}}/include.yml >| {{.INSTALL_DIR}}/Taskfile.yml
-        else
-          cat {{.INSTALL_DIR}}/Taskfile.yml.tmpl >| {{.INSTALL_DIR}}/Taskfile.yml 
-        fi
+        bash {{.INSTALL_DIR}}/join.sh
         echo "Dynamic includes updated."
 
