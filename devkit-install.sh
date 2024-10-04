@@ -30,7 +30,11 @@ fi
 
 bash $INSTALL_DIR/join.sh
 
-cat << EOF
- add the following to your rc scripts, e.g bash
-	alias devkit='CURRENT_DIR=\$(pwd) task -t ~/.local/devkit/Taskfile.yml'
-EOF
+
+# append to ~/.bashrc if devkit alias is not already present
+if ! grep -q "alias devkit='task -t ~/.local/devkit/Taskfile.yml'" ~/.bashrc; then
+  echo "alias devkit='task -t ~/.local/detaivkit/Taskfile.yml'" >> ~/.bashrc
+else
+  echo "devkit alias is already present in ~/.bashrc"
+fi
+
