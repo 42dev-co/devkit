@@ -18,8 +18,8 @@ tasks:
     cmds:
       - echo "Devkit environment initialized."
       - mkdir -p {{.MODULES_DIR}}
-      - task update-includes
-      - task --list
+      - task: update-includes
+      - task: default
 
   ls_mod:
     desc: "Install all modules"
@@ -41,6 +41,7 @@ tasks:
           rm -rf {{.MODULES_DIR}}/{{.module}}
         fi
         echo "Module {{.module}} removed"
+      - task: update-includes
 
   install_mod:
     desc: "Install a module"
@@ -54,7 +55,7 @@ tasks:
         MODULE_NAME=$(echo $REPO_NAME | sed 's/-tasks//')
         mkdir -p {{.MODULES_DIR}}/$MODULE_NAME
         git clone {{.url}} {{.MODULES_DIR}}/$MODULE_NAME
-      - task update-includes
+      - task: update-includes
       - echo "Module $MODULE_NAME installed."
 
   update_mod:
