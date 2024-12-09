@@ -33,7 +33,7 @@ bash $INSTALL_DIR/join.sh
 
 # append to ~/.bashrc if devkit alias is not already present
 if ! grep -q "alias devkit='task -t ~/.local/devkit/Taskfile.yml'" ~/.bashrc; then
-  echo "alias devkit='task -t ~/.local/detaivkit/Taskfile.yml'" >> ~/.bashrc
+  echo "alias devkit='task -t ~/.local/devkit/Taskfile.yml'" >> ~/.bashrc
 else
   echo "devkit alias is already present in ~/.bashrc"
 fi
