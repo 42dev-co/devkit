@@ -44,12 +44,14 @@ tasks:
       - task: update-includes
 
   install_mod:
-    desc: "Install a module"
+    desc: "Install a module. required: url:<string>"
     summary: "Clone a module from a public repository URL."
     inputs:
       - url
     cmds:
       - |
+        # if url is empty, exit
+        [ -z "{{.url}}" ] && echo "url is required" && exit 1
         REPO_NAME=$(basename -s .git {{.url}})
         # remove "-tasks" from the repo name
         MODULE_NAME=$(echo $REPO_NAME | sed 's/-tasks//')
